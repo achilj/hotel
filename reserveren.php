@@ -50,14 +50,7 @@ function haalBezettingenOp($conn, $kamer_id) {
 // Haal bezettingen voor deze kamer op
 $bezettingen = haalBezettingenOp($conn, $kamer_id);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $aankomst = $_POST['aankomst'];
-    $vertrek = $_POST['vertrek'];
-    $aantal_personen = $_POST['aantal_personen'];
 
-    // Redirect naar de winkelwagen
-    header('Location: checkout.php');
-}
 ?>
 
 <!DOCTYPE html>
