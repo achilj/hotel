@@ -9,6 +9,13 @@ if ($kamer_id == 0) {
     die("Ongeldige kamer ID.");
 }
 
+// Oude tijdelijke reserveringen checken en verwijderen
+$sql = "DELETE FROM tblboeking 
+        WHERE betaald IS NULL 
+        AND PersoonFK IS NULL 
+        AND Reservatie < DATE_SUB(NOW(), INTERVAL 30 MINUTE)";
+$conn->query($sql);
+
 // Haal kamer informatie op
 $sql = "SELECT * FROM tblkamer WHERE PKKamer = $kamer_id";
 $result = $conn->query($sql);
@@ -50,7 +57,48 @@ function haalBezettingenOp($conn, $kamer_id) {
 // Haal bezettingen voor deze kamer op
 $bezettingen = haalBezettingenOp($conn, $kamer_id);
 
+// Reservering verwerken
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $aankomst = $_POST['aankomst'] ?? '';
+    $vertrek = $_POST['vertrek'] ?? '';
+    $aantal_personen = isset($_POST['aantal_personen']) ? intval($_POST['aantal_personen']) : 0;
 
+    if (!$aankomst || !$vertrek || $aantal_personen <= 0) {
+        die("Ongeldige gegevens voor reservering.");
+    }
+
+    // Bereken het aantal nachten
+    $aankomst_date = new DateTime($aankomst);
+    $vertrek_date = new DateTime($vertrek);
+    $interval = $aankomst_date->diff($vertrek_date);
+    $aantal_nachten = $interval->days;
+
+    // Bereken de totaalprijs
+    $kamer_prijs = $kamer['Prijs'];
+    $totaalprijs = $kamer_prijs * $aantal_nachten;
+
+    // Voeg reservering toe aan de database
+    $session_id = session_id(); // Huidige sessie-ID gebruiken
+    $persoon_fk = null; // PersoonFK is voorlopig NULL, zoals in jouw oorspronkelijke query
+    $sql = "INSERT INTO tblboeking 
+            (PersoonFK, AantalPersonen, KamerFK, Check_in, Check_out, betaald, SessionID, TotaalPrijs) 
+            VALUES 
+            (?, ?, ?, ?, ?, NULL, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        die("Voorbereiden van query mislukt: " . $conn->error);
+    }
+
+    // Bind parameters
+    $stmt->bind_param("iiisssd", $persoon_fk, $aantal_personen, $kamer_id, $aankomst, $vertrek, $session_id, $totaalprijs);
+
+    // Voer de query uit
+    if ($stmt->execute()) {
+        header("Location: checkout.php");
+    } else {
+        echo "<script>alert('Reservering mislukt.');</script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>

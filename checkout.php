@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 include 'config/conn.php';
 include 'utility/bedrijfsinfo.php';
 
@@ -25,7 +24,25 @@ $GemeneeteRow = mysqli_fetch_assoc($resultGemeente);
     <h2>Kamers:</h2>
     <?php
     //Haal alle kamers uit de database van die session id en zet ze in een array enkel als tblboeking.betaald NULL is. Wanneer je de resevatie afrond wordt deze op betaald gezet. Koppel de reservatie aan de persoon die eerst wordt aangemaakt.
+    $sql = "SELECT * FROM tblboeking
+            LEFT JOIN tblkamer ON tblboeking.KamerFK = tblkamer.PKKamer
+            WHERE SessionID = '" . session_id() . "' AND betaald IS NULL AND PersoonFK IS NULL";
     
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            echo "<div class='kamer'>";
+            echo "<h3>" . $row['KamerNaam'] . "</h3>";
+            echo "<p>" . $row['AantalPersonen'] . " Personen</p>";
+            echo "<p>Check-in: " . $row['Check_in'] . "</p>";
+            echo "<p>Check-out: " . $row['Check_out'] . "</p>";
+            echo "<p>€" . $row['TotaalPrijs'] . "</p>";
+            echo "<a href='utility/removecheckout.php?id=" . $row['PKBoeking'] . "'>Verwijder</a>";
+            echo "</div>";
+        }
+    } else {
+        echo "Geen kamers gevonden";
+    }
     ?>
     </section>
 

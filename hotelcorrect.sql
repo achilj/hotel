@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 06 dec 2024 om 14:13
+-- Gegenereerd op: 06 dec 2024 om 14:33
 -- Serverversie: 10.4.32-MariaDB
 -- PHP-versie: 8.2.12
 
@@ -65,7 +65,7 @@ CREATE TABLE `tblblockdagen` (
 
 CREATE TABLE `tblboeking` (
   `PKBoeking` int(11) NOT NULL,
-  `PersoonFK` int(11) NOT NULL,
+  `PersoonFK` int(11) DEFAULT NULL,
   `AantalPersonen` int(11) NOT NULL,
   `TotaalPrijs` float NOT NULL,
   `KamerFK` int(11) NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE `tblboeking` (
   `Check_out` datetime NOT NULL,
   `Checked_in` tinyint(1) NOT NULL,
   `betaald` int(1) DEFAULT NULL,
-  `SessionID` int(11) NOT NULL,
+  `SessionID` text NOT NULL,
   `Reservatie` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -3004,7 +3004,7 @@ ALTER TABLE `tblblockdagen`
 -- AUTO_INCREMENT voor een tabel `tblboeking`
 --
 ALTER TABLE `tblboeking`
-  MODIFY `PKBoeking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `PKBoeking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblgemeente`
