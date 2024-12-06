@@ -24,7 +24,7 @@ function haalBezettingenOp($conn, $kamer_id) {
     // Haal boekingen op
     $sql = "
         SELECT Check_in, Check_out, KamerFK 
-        FROM tblboeking bk
+        FROM tblboeking
         WHERE KamerFK = $kamer_id";
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
@@ -54,20 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $aankomst = $_POST['aankomst'];
     $vertrek = $_POST['vertrek'];
     $aantal_personen = $_POST['aantal_personen'];
-
-    // Sla boeking op in de sessie
-    if (!isset($_SESSION['boekingen'])) {
-        $_SESSION['boekingen'] = [];
-    }
-
-    $_SESSION['boekingen'][] = [
-        'kamer_id' => $kamer['PKKamer'],
-        'kamer_naam' => $kamer['KamerNaam'],
-        'aankomst' => $aankomst,
-        'vertrek' => $vertrek,
-        'aantal_personen' => $aantal_personen,
-        'boekingsdatum' => date('Y-m-d H:i:s')
-    ];
 
     // Redirect naar de winkelwagen
     header('Location: checkout.php');

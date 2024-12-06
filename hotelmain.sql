@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 06 dec 2024 om 13:45
+-- Gegenereerd op: 06 dec 2024 om 14:09
 -- Serverversie: 10.4.32-MariaDB
 -- PHP-versie: 8.2.12
 
@@ -57,13 +57,6 @@ CREATE TABLE `tblblockdagen` (
   `Einddatum` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Gegevens worden geëxporteerd voor tabel `tblblockdagen`
---
-
-INSERT INTO `tblblockdagen` (`PKBlockdag`, `Startdatum`, `Einddatum`) VALUES
-(5, '2024-12-16', '2024-12-18');
-
 -- --------------------------------------------------------
 
 --
@@ -80,7 +73,8 @@ CREATE TABLE `tblboeking` (
   `Check_out` datetime NOT NULL,
   `Checked_in` tinyint(1) NOT NULL,
   `betaald` int(1) DEFAULT NULL,
-  `SessionID` int(11) NOT NULL
+  `SessionID` int(11) NOT NULL,
+  `Reservatie` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -3004,13 +2998,13 @@ ALTER TABLE `tblbedrijf`
 -- AUTO_INCREMENT voor een tabel `tblblockdagen`
 --
 ALTER TABLE `tblblockdagen`
-  MODIFY `PKBlockdag` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `PKBlockdag` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblboeking`
 --
 ALTER TABLE `tblboeking`
-  MODIFY `PKBoeking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `PKBoeking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblgemeente`
