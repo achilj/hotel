@@ -73,8 +73,6 @@ $GemeneeteRow = mysqli_fetch_assoc($resultGemeente);
                 <input type="email" name="email" id="email" required>
                 <label for="telefoon">Telefoon:</label>
                 <input type="tel" name="telefoon" id="telefoon" required>
-                <label for="opmerkingen">Opmerkingen:</label>
-                <textarea name="opmerkingen" id="opmerkingen"></textarea>
                 <button type="submit">Reservering Afronden</button>
             </form>
         </article>

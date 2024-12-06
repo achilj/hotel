@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 06 dec 2024 om 13:15
+-- Gegenereerd op: 06 dec 2024 om 13:45
 -- Serverversie: 10.4.32-MariaDB
 -- PHP-versie: 8.2.12
 
@@ -75,23 +75,12 @@ CREATE TABLE `tblboeking` (
   `PersoonFK` int(11) NOT NULL,
   `AantalPersonen` int(11) NOT NULL,
   `TotaalPrijs` float NOT NULL,
-  `Boekingsdatum` datetime NOT NULL,
+  `KamerFK` int(11) NOT NULL,
   `Check_in` datetime NOT NULL,
   `Check_out` datetime NOT NULL,
-  `Checked_in` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Tabelstructuur voor tabel `tblboekingkamers`
---
-
-CREATE TABLE `tblboekingkamers` (
-  `PKBoekingKamers` int(11) NOT NULL,
-  `KamerFK` int(11) NOT NULL,
-  `BoekingFK` int(11) NOT NULL,
-  `AantalPersonen` int(11) NOT NULL
+  `Checked_in` tinyint(1) NOT NULL,
+  `betaald` int(1) DEFAULT NULL,
+  `SessionID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -2972,12 +2961,6 @@ ALTER TABLE `tblboeking`
   ADD PRIMARY KEY (`PKBoeking`);
 
 --
--- Indexen voor tabel `tblboekingkamers`
---
-ALTER TABLE `tblboekingkamers`
-  ADD PRIMARY KEY (`PKBoekingKamers`);
-
---
 -- Indexen voor tabel `tblgemeente`
 --
 ALTER TABLE `tblgemeente`
@@ -3030,12 +3013,6 @@ ALTER TABLE `tblboeking`
   MODIFY `PKBoeking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT voor een tabel `tblboekingkamers`
---
-ALTER TABLE `tblboekingkamers`
-  MODIFY `PKBoekingKamers` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
 -- AUTO_INCREMENT voor een tabel `tblgemeente`
 --
 ALTER TABLE `tblgemeente`
@@ -3057,7 +3034,7 @@ ALTER TABLE `tblkamer`
 -- AUTO_INCREMENT voor een tabel `tblpersoon`
 --
 ALTER TABLE `tblpersoon`
-  MODIFY `PKPersoon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `PKPersoon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT voor een tabel `tbluser`
