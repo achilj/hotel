@@ -21,12 +21,10 @@ if (!$kamer) {
 // Haal bezette periodes op
 function haalBezettingenOp($conn, $kamer_id) {
     $bezettingen = [];
-
     // Haal boekingen op
     $sql = "
-        SELECT Check_in, Check_out 
-        FROM tblboekingkamers bk
-        JOIN tblboeking b ON bk.BoekingFK = b.PKBoeking
+        SELECT Check_in, Check_out, KamerFK 
+        FROM tblboeking bk
         WHERE KamerFK = $kamer_id";
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
