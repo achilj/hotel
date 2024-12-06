@@ -62,7 +62,7 @@ $GemeneeteRow = mysqli_fetch_assoc($resultGemeente);
                 <input list="gemeenteLijst" id="gemeenteNaam" name="gemeenteNaam" 
                 value="<?php echo $GemeneeteRow['Gemeente'] . ' ' . $GemeneeteRow['Postcode']; ?>" 
                 oninput="updateGemeenteID()" autocomplete="off">
-                <datalist id="gemeenteLijst">
+                <datalist id="tes">
                 <?php
                     while ($r = mysqli_fetch_assoc($resultGemeente)) {
                         echo "<option value='" . $r["Gemeente"] . " " . $r["Postcode"] . "' data-pk='" . $r["PKGemeente"] . "'>";
