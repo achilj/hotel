@@ -269,6 +269,15 @@ nav ul li a:hover {
     
 }
 
+.checkoutcontainer .kamer {
+    display: flex;
+    flex-direction: column;
+    border: #000 solid 0.2rem;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+
 footer {
     display: flex;
     justify-content: center;
