@@ -4,11 +4,6 @@ session_start();
 include 'config/conn.php';
 include 'utility/bedrijfsinfo.php';
 
-if (!isset($_SESSION['boekingen']) || empty($_SESSION['boekingen'])) {
-    echo "<script>alert('Er zijn geen reserveringen om te bevestigen.');window.location.href='index.php';</script>";
-    exit;
-}
-
 // Gemeentes binnenhalen
 $sqlGemeente = "SELECT * FROM tblgemeente";
 $resultGemeente = mysqli_query($conn, $sqlGemeente);
@@ -29,16 +24,8 @@ $GemeneeteRow = mysqli_fetch_assoc($resultGemeente);
     <section class="checkoutcontainer">
     <h2>Kamers:</h2>
     <?php
-    //Haal alle kamers op die gereserveerd zijn uit de sessie
-    foreach ($_SESSION['boekingen'] as $boeking) {
-        echo "<article>";
-        echo "<h3>" . $boeking['kamer_naam'] . "</h3>";
-        echo "<p>Aankomst: " . $boeking['aankomst'] . "</p>";
-        echo "<p>Vertrek: " . $boeking['vertrek'] . "</p>";
-        echo "<p>Aantal Personen: " . $boeking['aantal_personen'] . "</p>";
-        echo "</article>";
-        echo "<a href='utility/deletefromcart.php?id=" . $boeking['kamer_id'] . "'>Verwijder</a>";
-    }
+    //Haal alle kamers uit de database van die session id en zet ze in een array enkel als tblboeking.betaald NULL is. Wanneer je de resevatie afrond wordt deze op betaald gezet. Koppel de reservatie aan de persoon die eerst wordt aangemaakt.
+    
     ?>
     </section>
 
