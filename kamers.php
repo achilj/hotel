@@ -1,6 +1,5 @@
 <?php
 include 'config/conn.php';
-//Inladen Bedrijfsinformatie
 include 'utility/bedrijfsinfo.php';
 
 ?>
@@ -12,6 +11,7 @@ include 'utility/bedrijfsinfo.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php echo "<title>" . $info['Bedrijfsnaam'] . " | ONZE KAMERS</title>" ?>
     <link rel="stylesheet" href="style/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
     <?php include 'utility/header.php'; ?>
@@ -36,9 +36,20 @@ include 'utility/bedrijfsinfo.php';
                         echo "<img src='img/placeholder.webp' alt='Standaard kamerfoto'>";
                     }
                     echo "<h3>" . $row['KamerNaam'] . "</h3>";
-                    echo "<p>" . $row['Capaciteit'] . " Personen</p>";
-
+                    // Als een kamer wifi, televisie of airco heeft, laat dan een icoontje zien (van Font Awesome), anders niet (leeg) deze haal je uit de database met de kolommen Wifi, Televisie en Airco
+                    echo "<p>";
+                    if ($row['Wifi'] == 1) {
+                        echo "<i class='fas fa-wifi'></i> ";
+                    }
+                    if ($row['Televisie'] == 1) {
+                        echo "<i class='fas fa-tv'></i> ";
+                    }
+                    if ($row['Airco'] == 1) {
+                        echo "<i class='fas fa-fan'></i>";
+                    }
+                    echo "</p>";
                     echo "<p>€" . $row['Prijs'] . " per nacht</p>";
+                    echo "<p>Maximum " . $row['Capaciteit'] . " Personen</p>";
                     echo "<a href='reserveren.php?id=" . $row['PKKamer'] . "'>Reserveer nu</a>";
                     echo "</div>";
                 }

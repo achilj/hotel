@@ -104,7 +104,7 @@ nav ul li a:hover {
     margin-bottom: 1rem;
 }
 
-.homesec a {
+.homesec a, .kamer a {
     text-decoration: none;
     color: #ffba00;
     font-size: 1.5rem;
@@ -115,7 +115,7 @@ nav ul li a:hover {
     transition: 0.5s;
 }
 
-.homesec a:hover {
+.homesec a:hover, .kamer a:hover {
     background-color: #ffba00;
     color: #000;
     transform: scale(1.1);
