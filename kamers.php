@@ -27,7 +27,7 @@ include 'utility/bedrijfsinfo.php';
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<div class='kamer'>";
-                    //echo "<img src='img/" . $row['IMGFK'] . "' alt='Kamer " . $row['KamerNaam'] . "'>";
+                    echo "<img src='img/" . $row['FotoUrl'] . "' alt='Kamer " . $row['KamerNaam'] . "'>";
                     echo "<h3>" . $row['KamerNaam'] . "</h3>";
                     echo "<p>" . $row['Capaciteit'] . " Personen</p>";
 
