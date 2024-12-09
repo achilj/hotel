@@ -50,7 +50,8 @@ if(!isset($_SESSION["loggedin"])) {
                     echo "<td>" . $row['AankomstDatum'] . "</td>";
                     echo "<td>" . $row['VertrekDatum'] . "</td>";
                     echo "<td>" . $row['KamerFK'] . "</td>";
-                    echo "<td><a href='boeking.php?delete=" . $row['PKBoeking'] . "'>Verwijderen</a></td>";
+                    echo "<td><a href='utility/boekingfuncties.php?checkin=" . $row['PKBoeking'] . "'>Inchecken</a></td>";
+                    echo "<td><a href='utility/boekingfuncties.php?delete=" . $row['PKBoeking'] . "'>Verwijderen</a></td>";
                     echo "</tr>";
                 }
             } else {
