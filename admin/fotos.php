@@ -42,7 +42,7 @@ if (isset($_GET['kamerfilter']) && $_GET['kamerfilter'] !== "") {
 <body>
     <section class="dashcontainer">
         <h1>Fotos Upload</h1>
-        <form action="utility/fotosupload.php" method="post" enctype="multipart/form-data">
+        <form action="utility/fotosupload.php" method="post" enctype="multipart/form-data" class="fotoupload">
             <label for="fotoname">Naam van de foto:</label>
             <input type="text" name="fotoname" id="fotoname" required>
             <label for="file">Kies een bestand:</label>
@@ -89,9 +89,14 @@ if (isset($_GET['kamerfilter']) && $_GET['kamerfilter'] !== "") {
         </form>
         <div class="fotos">
             <?php
-            $sql = "SELECT * FROM tblimg";
+           $sql = "SELECT * FROM tblimg
+           LEFT JOIN tblkamer ON tblimg.KamerFK = tblkamer.PKKamer
+           ORDER BY KamerFK";
+   
             if ($filterKamer) {
-                $sql .= " WHERE KamerFK = $filterKamer";
+                $sql = "SELECT * FROM tblimg
+                        LEFT JOIN tblkamer ON tblimg.KamerFK = tblkamer.PKKamer
+                        WHERE KamerFK = $filterKamer";
             }
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
@@ -99,7 +104,7 @@ if (isset($_GET['kamerfilter']) && $_GET['kamerfilter'] !== "") {
                     echo "<div class='foto'>";
                     echo "<img src='../img/uploads/" . $row['FotoUrl'] . "' alt='Foto van " . $row['FotoNaam'] . "'>";
                     echo "<h3>" . $row['FotoNaam'] . "</h3>";
-                    echo "<p>Kamer: " . $row['KamerFK'] . "</p>";
+                    echo "<p>Kamer: " . $row['KamerNaam'] . " (" . $row['PKKamer'] . ")</p>";
                     echo "<p>Soort: " . $row['FotoSoort'] . "</p>";
                     echo "<a href='fotos.php?delete=" . $row['PKIMG'] . "'>Verwijder</a>";
                     echo "</div>";

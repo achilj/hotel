@@ -7,6 +7,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $check = getimagesize($_FILES["file"]["tmp_name"]);
 
+    if (file_exists($target_file)) {
+        echo "<script>alert('Het bestand bestaat al.');</script>";
+        die();
+    }
+
+    // Als het bestand een fotosoort main is geef dan een foutmelding als er al een main is bij die kamerFK
+    if ($_POST['fotosoort'] == 'main') {
+        $sql = "SELECT * FROM tblimg WHERE KamerFK = " . $_POST['kamerfk'] . " AND FotoSoort = 'main'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            echo "<script>alert('Er is al een hoofdfoto voor deze kamer.');</script>";
+            echo "<script>window.location = '../index.php';</script>";
+            die();
+        }
+    }
+
     if ($check !== false && in_array($imageFileType, ['png', 'jpeg', 'webp', 'jpg', 'gif', 'svg', 'avif'])) {
         if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
             $fotoNaam = $_POST['fotoname'];
