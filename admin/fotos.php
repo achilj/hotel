@@ -1,13 +1,27 @@
 <?php
 include '../config/conn.php';
 
+
 if (isset($_GET['delete'])) {
-    $id = intval($_GET['delete']);
-    $sql = "DELETE FROM tblimg WHERE PKImg = $id";
-    if ($conn->query($sql) === TRUE) {
-        echo "Foto succesvol verwijderd.";
+    // Check of de foto bestaat in de map, en verwijder bestand als deze nog bestaat voordat de database entry wordt verwijderd
+    $sql = "SELECT * FROM tblimg WHERE PKIMG = " . $_GET['delete'];
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $file = "../img/uploads/" . $row['FotoUrl'];
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        
+        $sql = "DELETE FROM tblimg WHERE PKIMG = " . $_GET['delete'];
+        if ($conn->query($sql) === TRUE) {
+            echo "<script>alert('Foto succesvol verwijderd.');</script>";
+            echo "<script>window.location = 'fotos.php';</script>";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "<script>alert('Foto niet gevonden.');</script>";
     }
 }
 
