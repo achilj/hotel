@@ -171,6 +171,11 @@ nav ul li a:hover {
     font-size: max(1.5rem, 1.25vw);
 }
 
+.kamerssec .kamer img {
+    width: 100%;
+    border-radius: 1rem;
+}
+
 .reserveren form {
     width: 30%;
     max-width: 1000px;

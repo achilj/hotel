@@ -21,14 +21,20 @@ include 'utility/bedrijfsinfo.php';
             <h2>Boek hier onze gezellige kamers</h2>
             <p>Onze kamers zijn van alle gemakken voorzien en zijn geschikt voor zowel zakelijke als particuliere gasten.</p>
             <?php
-            $sql = "SELECT * FROM tblkamer
-                    LEFT JOIN tblimg ON tblkamer.PKKamer = tblimg.KamerFK
-                    WHERE tblimg.fotosoort = 'main'";
+            $sql = "SELECT * FROM tblkamer";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<div class='kamer'>";
-                    echo "<img src='img/" . $row['FotoUrl'] . "' alt='Foto van " . $row['FotoNaam'] . "'>";
+                    //Selecteer foto van kamer met fotosoort 'main' (hoofdfoto) KamerFK = PKKamer als er geen foto is, laat dan een standaard foto zien
+                    $sqlFoto = "SELECT * FROM tblimg WHERE KamerFK = " . $row['PKKamer'] . " AND FotoSoort = 'main'";
+                    $resultFoto = $conn->query($sqlFoto);
+                    $rowFoto = $resultFoto->fetch_assoc();
+                    if ($resultFoto->num_rows > 0) {
+                        echo "<img src='img/uploads/" . $rowFoto['FotoUrl'] . "' alt='Foto van " . $rowFoto['FotoNaam'] . "'>";
+                    } else {
+                        echo "<img src='img/placeholder.webp' alt='Standaard kamerfoto'>";
+                    }
                     echo "<h3>" . $row['KamerNaam'] . "</h3>";
                     echo "<p>" . $row['Capaciteit'] . " Personen</p>";
 
