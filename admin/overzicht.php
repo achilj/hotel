@@ -43,7 +43,7 @@ if(!isset($_SESSION["loggedin"])) {
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>";
-                    echo "<td>" . $row['PKBoeking'] . "</td>";
+                    echo "<td>#" . $row['PKBoeking'] . "</td>";
                     echo "<td>" . $row['Voornaam'] . " " . $row['Achternaam'] . "</td>";
                     echo "<td>" . $row['Email'] . "</td>";
                     echo "<td>" . $row['Telefoonnummer'] . "</td>";
