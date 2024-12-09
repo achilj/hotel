@@ -22,12 +22,13 @@ include 'utility/bedrijfsinfo.php';
             <p>Onze kamers zijn van alle gemakken voorzien en zijn geschikt voor zowel zakelijke als particuliere gasten.</p>
             <?php
             $sql = "SELECT * FROM tblkamer
-                    LEFT JOIN tblimg ON tblkamer.PKKamer = tblimg.KamerFK";
+                    LEFT JOIN tblimg ON tblkamer.PKKamer = tblimg.KamerFK
+                    WHERE tblimg.fotosoort = 'main'";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<div class='kamer'>";
-                    echo "<img src='img/" . $row['FotoUrl'] . "' alt='Kamer " . $row['KamerNaam'] . "'>";
+                    echo "<img src='img/" . $row['FotoUrl'] . "' alt='Foto van " . $row['FotoNaam'] . "'>";
                     echo "<h3>" . $row['KamerNaam'] . "</h3>";
                     echo "<p>" . $row['Capaciteit'] . " Personen</p>";
 
