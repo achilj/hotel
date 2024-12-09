@@ -8,15 +8,6 @@ if(!isset($_SESSION["loggedin"])) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $startdate = $_POST['startdate'];
-    $enddate = $_POST['enddate'];
-
-    $sql = "INSERT INTO tblblockdagen (Startdatum, Einddatum) 
-            VALUES ('$startdate', '$enddate')";
-    $conn->query($sql);
-    header('Location: index.php');
-}
 ?>
 
 <!DOCTYPE html>
@@ -24,41 +15,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMIN | Gesloten</title>
+    <title>ADMIN | Boekingen</title>
     <link rel="stylesheet" href="style/styles.css">
 </head>
 <body>
     <section class="dashcontainer">
-        <h1>Gesloten</h1>
-        <form method="post" action="block.php">
-            <label for="startdate">Datum:</label>
-            <input type="date" id="startdate" name="startdate" required>
-            <br>
-            <label for="enddate">Datum:</label>
-            <input type="date" id="enddate" name="enddate" required>
-            <br>
-            <button type="submit">Block</button>
-        </form>
-    </section>
-
-    <section class="table">
+        <h1>Boekingen</h1>
+        <!-- Tabel met boekingen, boekingen waarvan de aankomstdatum niet in het verleden mag liggen deze worden binnengehaald via tblersoon voor het geval dat er een persoon is met meerdere boekingen !VOOR EXACT DEZELFDE DAGEN AANKOMST EN VERTREK) -->
         <table>
             <tr>
-                <th>Startdatum</th>
-                <th>Einddatum</th>
+                <th>Boeking ID</th>
+                <th>Naam</th>
+                <th>Email</th>
+                <th>Telefoonnummer</th>
+                <th>Aankomstdatum</th>
+                <th>Vertrekdatum</th>
+                <th>Kamer</th>
+                <th>Acties</th>
             </tr>
             <?php
-            $sql = "SELECT * FROM tblblockdagen";
+            $sql = "SELECT * 
+                    FROM tblboeking 
+                    INNER JOIN tblpersoon ON tblboeking.PersoonFK = tblpersoon.PKPersoon 
+                    WHERE tblboeking.Check_in >= CURDATE() 
+                    ORDER BY tblboeking.Check_in ASC";
             $result = $conn->query($sql);
-
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>";
-                    echo "<td>" . $row['Startdatum'] . "</td>";
-                    echo "<td>" . $row['Einddatum'] . "</td>";
-                    echo "<td><a href='deleteblock.php?id=" . $row['PKBlockdag'] . "'>Delete</a></td>";
+                    echo "<td>" . $row['PKBoeking'] . "</td>";
+                    echo "<td>" . $row['Voornaam'] . " " . $row['Achternaam'] . "</td>";
+                    echo "<td>" . $row['Email'] . "</td>";
+                    echo "<td>" . $row['Telefoonnummer'] . "</td>";
+                    echo "<td>" . $row['AankomstDatum'] . "</td>";
+                    echo "<td>" . $row['VertrekDatum'] . "</td>";
+                    echo "<td>" . $row['KamerFK'] . "</td>";
+                    echo "<td><a href='boeking.php?delete=" . $row['PKBoeking'] . "'>Verwijderen</a></td>";
                     echo "</tr>";
                 }
+            } else {
+                echo "<tr><td colspan='8'>Geen boekingen gevonden.</td></tr>";
             }
             ?>
         </table>
