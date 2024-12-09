@@ -1,8 +1,6 @@
 <?php
 include '../config/conn.php';
 
-
-
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
     $sql = "DELETE FROM tblimg WHERE PKImg = $id";
@@ -11,6 +9,11 @@ if (isset($_GET['delete'])) {
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
+}
+
+$filterKamer = "";
+if (isset($_GET['kamerfilter']) && $_GET['kamerfilter'] !== "") {
+    $filterKamer = intval($_GET['kamerfilter']);
 }
 ?>
 
@@ -52,16 +55,38 @@ if (isset($_GET['delete'])) {
             <button type="submit">Upload</button>
         </form>
         <h2>Geuploade fotos</h2>
+        <label for="filter">Filter op kamer:</label>
+        <form method="GET" action="fotos.php">
+            <select name="kamerfilter" id="kamerfilter" onchange="this.form.submit()">
+                <option value="">Alle kamers</option>
+                <?php
+                $sql = "SELECT * FROM tblkamer";
+                $result = $conn->query($sql);
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        $selected = ($filterKamer == $row['PKKamer']) ? "selected" : "";
+                        echo "<option value='" . $row['PKKamer'] . "' $selected>" . $row['KamerNaam'] . "</option>";
+                    }
+                } else {
+                    echo "Geen kamers gevonden";
+                }
+                ?>
+            </select>
+        </form>
         <div class="fotos">
             <?php
             $sql = "SELECT * FROM tblimg";
+            if ($filterKamer) {
+                $sql .= " WHERE KamerFK = $filterKamer";
+            }
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<div class='foto'>";
                     echo "<img src='../img/uploads/" . $row['FotoUrl'] . "' alt='Foto van " . $row['FotoNaam'] . "'>";
-                    echo "<p>" . $row['FotoNaam'] . "</p>";
-                    echo "<p>" . $row['FotoSoort'] . "</p>";
+                    echo "<h3>" . $row['FotoNaam'] . "</h3>";
+                    echo "<p>Kamer: " . $row['KamerFK'] . "</p>";
+                    echo "<p>Soort: " . $row['FotoSoort'] . "</p>";
                     echo "<a href='fotos.php?delete=" . $row['PKIMG'] . "'>Verwijder</a>";
                     echo "</div>";
                 }

@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 
             $sql = "INSERT INTO tblimg (KamerFK, FotoNaam, FotoUrl, FotoSoort) VALUES ('$kamerfk', '$fotoNaam', '$fotoUrl', '$FotoSoort')";
             if ($conn->query($sql) === TRUE) {
-                // Melding javascript foro succesvol geupload en daarna locatie naar index.php
                 echo "<script>alert('Foto succesvol geupload.');</script>";
                 echo "<script>window.location = 'index.php';</script>";
             } else {
@@ -29,6 +28,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
         echo "<script>alert('Het bestand is geen afbeelding of het bestandstype is niet toegestaan.');</script>";
     }
 }
-
-
 ?>
