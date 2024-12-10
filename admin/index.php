@@ -19,11 +19,11 @@ if(!isset($_SESSION["loggedin"])) {
 <body>
     <section class="dashcontainer">
         <h1>Dashboard</h1>
-        <a href="overzicht.php">Boeking</a>
-        <a href="kamer.php">Kamer</a>
-        <a href="fotos.php">Fotos</a>
-        <a href="block.php">Blockdagen</a>
-        <a href="logout.php">Uitloggen</a>
+        <a class="dashknop" href="overzicht.php">Boeking</a>
+        <a class="dashknop" href="kamer.php">Kamer</a>
+        <a class="dashknop" href="fotos.php">Fotos</a>
+        <a class="dashknop" href="block.php">Sluitingsdagen</a>
+        <a class="dashknop" href="logout.php">Uitloggen</a>
     </section>
 </body>
 </html>

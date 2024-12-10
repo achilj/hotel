@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo "<tr>";
                     echo "<td>" . $row['Startdatum'] . "</td>";
                     echo "<td>" . $row['Einddatum'] . "</td>";
-                    echo "<td><a href='deleteblock.php?id=" . $row['PKBlockdag'] . "'>Delete</a></td>";
+                    echo "<td><a href='utility/deleteblock.php?id=" . $row['PKBlockdag'] . "'>Delete</a></td>";
                     echo "</tr>";
                 }
             }

@@ -1,6 +1,13 @@
 <?php
 include '../config/conn.php';
 
+session_start();
+// Check of gebruiker is ingelogd
+if(!isset($_SESSION["loggedin"])) {
+    header("Location: login.php");
+    exit;
+}
+
 
 if (isset($_GET['delete'])) {
     // Check of de foto bestaat in de map, en verwijder bestand als deze nog bestaat voordat de database entry wordt verwijderd

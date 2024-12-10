@@ -21,6 +21,7 @@ if(!isset($_SESSION["loggedin"])) {
 <body>
     <section class="dashcontainer">
         <h1>Boekingen</h1>
+        <a class="terugknop" href="index.php">terug</a>
         <!-- Tabel met boekingen, boekingen waarvan de aankomstdatum niet in het verleden mag liggen deze worden binnengehaald via tblersoon voor het geval dat er een persoon is met meerdere boekingen !VOOR EXACT DEZELFDE DAGEN AANKOMST EN VERTREK) -->
         <table>
             <tr>
@@ -37,18 +38,18 @@ if(!isset($_SESSION["loggedin"])) {
             $sql = "SELECT * 
                     FROM tblboeking 
                     INNER JOIN tblpersoon ON tblboeking.PersoonFK = tblpersoon.PKPersoon 
-                    WHERE tblboeking.Check_in >= CURDATE() 
+                    WHERE tblboeking.Check_out >= CURDATE() AND Checked_in = '0'
                     ORDER BY tblboeking.Check_in ASC";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     echo "<td>#" . $row['PKBoeking'] . "</td>";
-                    echo "<td>" . $row['Voornaam'] . " " . $row['Achternaam'] . "</td>";
+                    echo "<td>" . $row['Voornaam'] . " " . $row['Naam'] . "</td>";
                     echo "<td>" . $row['Email'] . "</td>";
-                    echo "<td>" . $row['Telefoonnummer'] . "</td>";
-                    echo "<td>" . $row['AankomstDatum'] . "</td>";
-                    echo "<td>" . $row['VertrekDatum'] . "</td>";
+                    echo "<td>" . $row['Telefoon'] . "</td>";
+                    echo "<td>" . $row['Check_in'] . "</td>";
+                    echo "<td>" . $row['Check_out'] . "</td>";
                     echo "<td>" . $row['KamerFK'] . "</td>";
                     echo "<td><a href='utility/boekingfuncties.php?checkin=" . $row['PKBoeking'] . "'>Inchecken</a></td>";
                     echo "<td><a href='utility/boekingfuncties.php?delete=" . $row['PKBoeking'] . "'>Verwijderen</a></td>";
@@ -59,6 +60,44 @@ if(!isset($_SESSION["loggedin"])) {
             }
             ?>
         </table>
+    </section>
+    <section class="dashcontainer">
+        <!-- Als een boeking is ingechecked en nog niet voorbij de Check_out datum is zet deze hier neer -->
+        <h1>Ingecheckte boekingen</h1>
+        <table>
+            <tr>
+                <th>Boeking ID</th>
+                <th>Naam</th>
+                <th>Email</th>
+                <th>Telefoonnummer</th>
+                <th>Aankomstdatum</th>
+                <th>Vertrekdatum</th>
+                <th>Kamer</th>
+                <th>Acties</th>
+            </tr>
+            <?php
+            $sql = "SELECT * FROM tblboeking
+                    INNER JOIN tblpersoon ON tblboeking.PersoonFK = tblpersoon.PKPersoon
+                    WHERE tblboeking.Check_out >= CURDATE() AND Checked_in = '1'
+                    ORDER BY tblboeking.Check_in ASC";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>#" . $row['PKBoeking'] . "</td>";
+                    echo "<td>" . $row['Voornaam'] . " " . $row['Naam'] . "</td>";
+                    echo "<td>" . $row['Email'] . "</td>";
+                    echo "<td>" . $row['Telefoon'] . "</td>";
+                    echo "<td>" . $row['Check_in'] . "</td>";
+                    echo "<td>" . $row['Check_out'] . "</td>";
+                    echo "<td>" . $row['KamerFK'] . "</td>";
+                    echo "<td><a href='utility/boekingfuncties.php?delete=" . $row['PKBoeking'] . "'>Verwijderen</a></td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='8'>Geen boekingen gevonden.</td></tr>";
+            }
+            ?>
     </section>
 </body>
 </html>
