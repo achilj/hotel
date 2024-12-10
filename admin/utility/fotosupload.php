@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
 
     if (file_exists($target_file)) {
         echo "<script>alert('Het bestand bestaat al.');</script>";
+        echo "<script>window.location = '../fotos.php';</script>";
         die();
     }
 
@@ -25,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             echo "<script>alert('Er is al een hoofdfoto voor deze kamer.');</script>";
-            echo "<script>window.location = '../index.php';</script>";
+            echo "<script>window.location = '../fotos.php';</script>";
             die();
         }
     }
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['file'])) {
             $sql = "INSERT INTO tblimg (KamerFK, FotoNaam, FotoUrl, FotoSoort) VALUES ('$kamerfk', '$fotoNaam', '$fotoUrl', '$FotoSoort')";
             if ($conn->query($sql) === TRUE) {
                 echo "<script>alert('Foto succesvol geupload.');</script>";
-                echo "<script>window.location = '../index.php';</script>";
+                echo "<script>window.location = '../fotos.php';</script>";
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }

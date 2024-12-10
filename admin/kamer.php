@@ -6,8 +6,6 @@ if(!isset($_SESSION["loggedin"])) {
     header("Location: login.php");
     exit;
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -23,13 +21,14 @@ if(!isset($_SESSION["loggedin"])) {
         <h1>Kamers Aanpassen</h1>
         <a class="terugknop" href="index.php">terug</a>
         <!-- Formulier om nieuwe kamer toe te voegen -->
-        <form action="kamertoevoegen.php" method="post" class="kamertoevoegen">
+        <form action="utility/kamertoevoegen.php" method="post" class="kamertoevoegen">
             <label for="kamer">Kamer naam:</label>
             <input type="text" name="kamer" id="kamer" required>
             <label for="capaciteit">Capaciteit</label>
             <input type="number" name="capaciteit" id="capaciteit" required>
             <label for="prijs">Prijs per nacht:</label>
-            <input type="number" name="prijs" id="prijs" required>
+            <input type="number" name="prijs" id="prijs" step="0.01" required>
+            <label>Faciliteiten:</label>
             <label for="wifi">Wifi</label>
             <input type="checkbox" name="wifi" id="wifi">
             <label for="tv">TV</label>
@@ -50,7 +49,7 @@ if(!isset($_SESSION["loggedin"])) {
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     echo "<td>" . $row['KamerNaam'] . "</td>";
-                    echo "<td><a href='kamerupdate.php?id=" . $row['PKKamer'] . "'>Bewerken</a> | <a href='kamerdelete.php?id=" . $row['PKKamer'] . "'>Verwijderen</a></td>";
+                    echo "<td><a href='utility/kamerfuncties.php?id=" . $row['PKKamer'] . "'>Wijzigen</a></td>";
                     echo "</tr>";
                 }
             } else {
