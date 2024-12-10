@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <section class="dashcontainer">
         <h1>Gesloten</h1>
+        <a class="terugknop" href="index.php">terug</a>
         <form method="post" action="block.php">
             <label for="startdate">Datum:</label>
             <input type="date" id="startdate" name="startdate" required>
