@@ -2,7 +2,17 @@
 session_start();
 include '../config/conn.php';
 
-// Wanneer de persoon op de checkout pagina komt en de persoonlijke info invult wordt deze info in de database gestoken en wordt de persoon gekoppeld aan de boeking die vanaf dan betaald is.
+// Check of er minstens 1 kamer is geselecteerd om te reserveren op de sessionid in tblboeking where betaald is NULL
+$sql = "SELECT * FROM tblboeking WHERE SessionID = '" . session_id() . "' AND betaald IS NULL";
+$result = $conn->query($sql);
+if ($result->num_rows == 0) {
+    echo "<script>alert('U heeft geen kamers geselecteerd om te reserveren.');</script>";
+    echo "<script>window.location = '../index.php';</script>";
+    die();
+}
+
+
+// Wanneer de persoon op de checkout pagina komt en de persoonlijke info invult, wordt deze info in de database gestoken en wordt de persoon gekoppeld aan de boeking die vanaf dan betaald is.
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['voornaam'])) {
     $voornaam = $_POST['voornaam'];
     $naam = $_POST['naam'];
@@ -17,24 +27,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['voornaam'])) {
     // Haal gemeente uit data-list (data-pk is de value van de option)
     $gemeente = explode(" ", $gemeente);
     $gemeente = $gemeente[0];
-    $sql = "SELECT * FROM tblgemeente WHERE Gemeente = '$gemeente'";
-    $result = $conn->query($sql);
+
+    // Prepared statement om gemeente op te halen
+    $stmt = $conn->prepare("SELECT PKGemeente FROM tblgemeente WHERE Gemeente = ?");
+    $stmt->bind_param("s", $gemeente);
+    $stmt->execute();
+    $result = $stmt->get_result();
     $row = $result->fetch_assoc();
     $pkgemeente = $row['PKGemeente'];
+    $stmt->close();
 
-    $sql = "INSERT INTO tblpersoon (Voornaam, Naam, Geboortedatum, Straat, Huisnummer, Bus, GemeenteFK, Email, Telefoon) VALUES ('$voornaam', '$naam', '$geboortedatum', '$straat', '$huisnummer', '$bus', '$pkgemeente', '$email', '$telefoon')";
-    if ($conn->query($sql) === TRUE) {
+    // Prepared statement om gegevens in tblpersoon in te voegen
+    $stmt = $conn->prepare("INSERT INTO tblpersoon (Voornaam, Naam, Geboortedatum, Straat, Huisnummer, Bus, GemeenteFK, Email, Telefoon) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssssiss", $voornaam, $naam, $geboortedatum, $straat, $huisnummer, $bus, $pkgemeente, $email, $telefoon);
+    if ($stmt->execute()) {
         $persoonFK = $conn->insert_id;
-        // Update de boeking met de persoonFK en zet de boeking op betaald (betaald = 1)
-        $sql = "UPDATE tblboeking SET PersoonFK = $persoonFK, betaald = 1 WHERE SessionID = '" . session_id() . "' AND betaald IS NULL AND PersoonFK IS NULL";
-        if ($conn->query($sql) === TRUE) {
+        $stmt->close();
+
+        // Prepared statement om tblboeking te updaten
+        $stmt = $conn->prepare("UPDATE tblboeking SET PersoonFK = ?, betaald = 1 WHERE SessionID = ? AND betaald IS NULL AND PersoonFK IS NULL");
+        $session_id = session_id();
+        $stmt->bind_param("is", $persoonFK, $session_id);
+        if ($stmt->execute()) {
             echo "<script>alert('Bedankt voor uw reservering.');</script>";
             echo "<script>window.location = '../index.php';</script>";
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo "Error: " . $stmt->error;
         }
+        $stmt->close();
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $stmt->error;
     }
 }
 ?>
