@@ -65,7 +65,7 @@ if(!isset($_SESSION["loggedin"])) {
     <section class="dashcontainer">
         <!-- Als een boeking is ingechecked en nog niet voorbij de Check_out datum is zet deze hier neer -->
         <h1>Ingecheckte boekingen</h1>
-        <table>
+        <table class="boekingen">
             <tr>
                 <th>Boeking ID</th>
                 <th>Naam</th>
@@ -79,6 +79,7 @@ if(!isset($_SESSION["loggedin"])) {
             <?php
             $sql = "SELECT * FROM tblboeking
                     INNER JOIN tblpersoon ON tblboeking.PersoonFK = tblpersoon.PKPersoon
+                    INNER JOIN tblkamer ON tblboeking.KamerFK = tblkamer.PKKamer
                     WHERE tblboeking.Check_out >= CURDATE() AND Checked_in = '1'
                     ORDER BY tblboeking.Check_in ASC";
             $result = $conn->query($sql);
@@ -91,7 +92,7 @@ if(!isset($_SESSION["loggedin"])) {
                     echo "<td>" . $row['Telefoon'] . "</td>";
                     echo "<td>" . $row['Check_in'] . "</td>";
                     echo "<td>" . $row['Check_out'] . "</td>";
-                    echo "<td>" . $row['KamerFK'] . "</td>";
+                    echo "<td>" . $row['KamerNaam'] . "</td>";
                     echo "<td><a href='utility/boekingfuncties.php?delete=" . $row['PKBoeking'] . "'>Verwijderen</a></td>";
                     echo "</tr>";
                 }

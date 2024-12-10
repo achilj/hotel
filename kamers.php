@@ -19,10 +19,43 @@ include 'utility/bedrijfsinfo.php';
         <section class="kamerssec">
             <h2>Boek hier onze gezellige kamers</h2>
             <p>Onze kamers zijn van alle gemakken voorzien en zijn geschikt voor zowel zakelijke als particuliere gasten.</p>
+            <article class="datumfilter">
+                <!-- Een form waar je optioneel een checkin en checkout datum in stopt als filter zodat wanneer dit ingevuld is enkel de beschikbare kamers getoond worden -->
+                <form method="get">
+                    <label for="checkin">Check-in Datum:</label>
+                    <input type="date" id="checkin" name="checkin">
+                    <label for="checkout">Check-out Datum:</label>
+                    <input type="date" id="checkout" name="checkout">
+                    <button type="submit">Zoek</button>
+                </form>
+                <?php
+                // Als er een checkin en checkout datum is ingevuld, dan worden enkel de kamers getoond die beschikbaar zijn tussen deze data anders worden alle kamers getoond
+                if (isset($_GET['checkin']) && isset($_GET['checkout'])) {
+                    $checkin = $_GET['checkin'];
+                    $checkout = $_GET['checkout'];
+                    $sql = "SELECT * FROM tblkamer
+                            WHERE NOT EXISTS
+                            (SELECT 1 FROM tblboeking WHERE KamerFK = PKKamer AND (
+                            ('$checkin' < Check_out AND '$checkout' > Check_in)
+                            ))";
+
+                }
+                else {
+                    $sql = "SELECT * FROM tblkamer";
+                }
+                $result = $conn->query($sql);
+                
+                // Als er een checkin en checkout datum is ingevuld, dan wordt er een tekst getoond met de data die ingevuld zijn en een link om de filter te wissen
+                if (isset($checkin) && isset($checkout)) {
+                    echo "<p>Kamers beschikbaar tussen " . $checkin . " en " . $checkout . "</p>";
+                    echo "<a href='kamers.php'>Wis filter</a>";
+                }
+                ?>
+            </article>
+
+            <!-- Hier worden de kamers getoond -->
             <article class="kamerlist">
             <?php
-            $sql = "SELECT * FROM tblkamer";
-            $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
                     echo "<div class='kamer'>";
@@ -60,7 +93,19 @@ include 'utility/bedrijfsinfo.php';
             </article>
         </section>
     </main>
-
     <?php include 'utility/footer.php'; ?>
+
+    <script>
+        // Script dat ervoor zorgt dat je niet in het verleden kan selecteren in de datumpickers en minstens 1 nacht moet verblijven dus + 1 dag
+        let checkin = document.getElementById('checkin');
+        let checkout = document.getElementById('checkout');
+        let today = new Date().toISOString().split('T')[0];
+        checkin.setAttribute('min', today);
+        checkin.addEventListener('change', function() {
+            let minDate = new Date(checkin.value);
+            minDate.setDate(minDate.getDate() + 1);
+            checkout.setAttribute('min', minDate.toISOString().split('T')[0]);
+        });
+    </script>
 </body>
 </html>

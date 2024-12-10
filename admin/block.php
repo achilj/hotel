@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "INSERT INTO tblblockdagen (Startdatum, Einddatum) 
             VALUES ('$startdate', '$enddate')";
     $conn->query($sql);
-    header('Location: index.php');
+    echo "<script>alert('Sluitingsdatum toegevoegd: $startdate - $enddate');</script>";
+    echo "<script>window.location = 'block.php';</script>";
 }
 ?>
 
@@ -29,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <section class="dashcontainer">
-        <h1>Gesloten</h1>
+        <h1>SLuitingsdagen</h1>
         <a class="terugknop" href="index.php">terug</a>
         <form method="post" action="block.php">
             <label for="startdate">Datum:</label>
@@ -40,9 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <br>
             <button type="submit">Block</button>
         </form>
-    </section>
 
-    <section class="table">
         <table>
             <tr>
                 <th>Startdatum</th>
