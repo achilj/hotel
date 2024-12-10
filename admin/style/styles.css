@@ -89,7 +89,7 @@ h1 {
 .boekingen {
     display: flex;
     flex-direction: column;
-    width: 55%;
+    width: 95%;
     max-width: 1100px;
     margin: 0 auto;
     border: 0.25rem solid #000;
