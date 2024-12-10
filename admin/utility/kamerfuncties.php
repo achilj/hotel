@@ -55,7 +55,7 @@ $row = $result->fetch_assoc();
             echo "<script>window.location = '../kamer.php';</script>";
         }
         ?>
-        <a class="terugknop" href="../kamer.php">terug</a>
+        <a class="terugknop" href="../kamer.php">Terug</a>
 
         <form action="kamerfuncties.php" method="post" class="kamertoevoegen">
             <input type="hidden" name="pkkamer" id="pkkamer" value="<?php echo $kamerid; ?>">

@@ -19,7 +19,7 @@ if(!isset($_SESSION["loggedin"])) {
 <body>
     <section class="dashcontainer">
         <h1>Kamers Aanpassen</h1>
-        <a class="terugknop" href="index.php">terug</a>
+        <a class="terugknop" href="index.php">Terug</a>
         <!-- Formulier om nieuwe kamer toe te voegen -->
         <form action="utility/kamertoevoegen.php" method="post" class="kamertoevoegen">
             <label for="kamer">Kamer naam:</label>

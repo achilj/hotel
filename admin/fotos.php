@@ -49,7 +49,7 @@ if (isset($_GET['kamerfilter']) && $_GET['kamerfilter'] !== "") {
 <body>
     <section class="dashcontainer">
         <h1>Fotos Upload</h1>
-        <a class="terugknop" href="index.php">terug</a>
+        <a class="terugknop" href="index.php">Terug</a>
         <form action="utility/fotosupload.php" method="post" enctype="multipart/form-data" class="fotoupload">
             <label for="fotoname">Naam van de foto:</label>
             <input type="text" name="fotoname" id="fotoname" required>

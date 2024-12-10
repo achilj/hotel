@@ -21,7 +21,7 @@ if(!isset($_SESSION["loggedin"])) {
 <body>
     <section class="dashcontainer">
         <h1>Boekingen</h1>
-        <a class="terugknop" href="index.php">terug</a>
+        <a class="terugknop" href="index.php">Terug</a>
         <!-- Tabel met boekingen, boekingen waarvan de aankomstdatum niet in het verleden mag liggen deze worden binnengehaald via tblersoon voor het geval dat er een persoon is met meerdere boekingen !VOOR EXACT DEZELFDE DAGEN AANKOMST EN VERTREK) -->
         <table class="boekingen">
             <tr>
