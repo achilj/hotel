@@ -172,7 +172,7 @@ nav ul li a:hover {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: fit-content;
+    width: 45%;
     max-width: 1000px;
     margin: 1rem;
     padding: 1rem;
@@ -182,15 +182,39 @@ nav ul li a:hover {
 }
 
 .kamerlist .kamer img {
-    width: 700px;
-    height: 500px;
+    width: 100%;
+    height: 350px;
+    border-radius: 1rem;
+}
+
+.reservatiepagina {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.reservatiepagina article{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    height: 600px;
+    padding: 1rem;
+    width: 45%;
+    background-color: #ffba00;
+    border-radius: 1rem;
+    margin: 2vh auto;
+    font-size: max(1.5rem, 1.25vw);
+}
+
+.kamerinfo img {
+    width: 100%;
     border-radius: 1rem;
 }
 
 .reserveren form {
-    width: 30%;
-    max-width: 1000px;
-    margin: 2rem auto;
     background-color: #ffba00;
     border-radius: 1rem;
     display: flex;
@@ -204,7 +228,7 @@ nav ul li a:hover {
 .flatpickr-input {
     display: inline-block;
     width: auto;
-    padding: 0.15rem 0.5rem;
+    padding: 0.5rem 0.5rem !important;
     background-color: #000000;
     color: white;
     border: none;
@@ -224,7 +248,6 @@ nav ul li a:hover {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.75);
 }
 
-
 .datepicker-wrapper {
     position: relative;
     display: inline-block;
@@ -241,6 +264,39 @@ nav ul li a:hover {
     transform: translateY(-50%);
     color: white;
     pointer-events: none; /* Klik niet door naar het icoon */
+}
+
+.persoonaantalselector {
+    width: 60%;
+    padding: 0.5rem;
+    margin-top: 1vh;
+    border: #000 solid 0.15rem;
+    border-radius: 1rem;
+}
+
+.extrafotos {
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 1rem;
+    margin-top: 1vh;
+    background-color: #ffba00;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+.extrafotos article {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.extrafotos article img {
+    width: 300px;
+    height: 200px;
+    border-radius: 1rem;
+    margin: 1rem;
 }
 
 .checkoutcontainer {
@@ -269,20 +325,57 @@ nav ul li a:hover {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 95%;
+    flex-wrap: wrap;
+    width: 98%;
     margin: 1rem;
     padding: 1rem;
-    border: #000 solid 0.2rem;
-    border-radius: 1rem;
     font-size: max(1.5rem, 1.25vw);
 }
 
-.checkoutcontainer .persinfo form {
+.checkoutcontactinfo {
+    width: 80%;
+    max-width: 2000px;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
+    padding: 1rem;
+    margin-top: 1vh;
+    background-color: #ffba00;
+    border-radius: 1rem;
+}
+
+.checkoutcontactinfo h2 {
+    font-size: 3rem;
+    text-decoration: underline;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.checkoutcontactinfo form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 95%;
+    margin: 1rem;
+    padding: 1rem;
+    font-size: max(1.5rem, 1.25vw);
+}
+
+.checkoutcontactinfo form input {
+    width: 80%;
+    padding: 0.5rem;
+    margin: 1vh 0;
+    border: #000 solid 0.15rem;
+    border-radius: 1rem;
+    font-size: 1.1rem;
+}
+
+.persinfo {
+    width: 80%;
 }
 
 .checkoutcontainer .kamer {

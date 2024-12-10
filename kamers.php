@@ -81,7 +81,7 @@ include 'utility/bedrijfsinfo.php';
                         echo "<i class='fas fa-fan'></i>";
                     }
                     echo "</p>";
-                    echo "<p>€" . $row['Prijs'] . " per nacht</p>";
+                    echo "<p>€ " . number_format($row['Prijs'], 2) . " per nacht</p>";
                     echo "<p>Maximum " . $row['Capaciteit'] . " Personen</p>";
                     echo "<a href='reserveren.php?id=" . $row['PKKamer'] . "'>Reserveer nu</a>";
                     echo "</div>";

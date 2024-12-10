@@ -41,7 +41,7 @@ function haalBezettingenOp($conn, $kamer_id) {
         ];
     }
 
-    // Haal blokkeerdagen op
+    // Haal Sluitingsdagen op
     $sql = "SELECT Startdatum, Einddatum FROM tblblockdagen";
     $result = $conn->query($sql);
     while ($row = $result->fetch_assoc()) {
@@ -118,31 +118,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <?php include 'utility/header.php'; ?>
     <main>
-        <section class="reserveren">
-            <form method="post">
-                <h1>Reserveren Kamer: <?php echo htmlspecialchars($kamer['KamerNaam']); ?></h1>
-                <label for="aankomst">Aankomst Datum:</label>
-                <div class="datepicker-wrapper">
-                    <input type="text" id="aankomst" name="aankomst" class="flatpickr-input" readonly>
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <br>
-                <label for="vertrek">Vertrek Datum:</label>
-                <div class="datepicker-wrapper">
-                    <input type="text" id="vertrek" name="vertrek" class="flatpickr-input" readonly>
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
+        <section class="reservatiepagina">
+            <article class="kamerinfo">
+            <?php
+                echo "<h1>" . $kamer['KamerNaam'] . "</h1>";
+                // Haal de hoofdfoto van de kamer op (FotoSoort = 'main') uit de database anders toon een standaard foto
+                $sqlFoto = "SELECT * FROM tblimg WHERE KamerFK = " . $kamer['PKKamer'] . " AND FotoSoort = 'main'";
+                $resultFoto = $conn->query($sqlFoto);
+                $rowFoto = $resultFoto->fetch_assoc();
+                if ($resultFoto->num_rows > 0) {
+                    echo "<img src='img/uploads/" . $rowFoto['FotoUrl'] . "' alt='Foto van " . $rowFoto['FotoNaam'] . "'>";
+                } else {
+                    echo "<img src='img/placeholder.webp' alt='Standaard kamerfoto'>";
+                }
+                echo "<p>Capaciteit: " . $kamer['Capaciteit'] . " personen</p>";
+                echo "<p>Prijs per nacht: €" . number_format($kamer['Prijs'], 2, ',', '.') . "</p>";
+                // Als een kamer wifi, televisie of airco heeft, laat dan een icoontje zien (van Font Awesome), anders niet (leeg) deze haal je uit de database met de kolommen Wifi, Televisie en Airco
+                echo "<p>";
+                if ($kamer['Wifi'] == 1) {
+                    echo "<i class='fas fa-wifi'></i> ";
+                }
+                if ($kamer['Televisie'] == 1) {
+                    echo "<i class='fas fa-tv'></i> ";
+                }
+                if ($kamer['Airco'] == 1) {
+                    echo "<i class='fas fa-fan'></i>";
+                }
+                echo "</p>";
+                ?>
+            </article>
+            <article class="reserveren">
+                <form method="post">
+                    <h1>Reserveren Kamer: <?php echo htmlspecialchars($kamer['KamerNaam']); ?></h1>
+                    <label for="aankomst">Aankomst Datum:</label>
+                    <div class="datepicker-wrapper">
+                        <input type="text" id="aankomst" name="aankomst" class="flatpickr-input" readonly>
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <br>
+                    <label for="vertrek">Vertrek Datum:</label>
+                    <div class="datepicker-wrapper">
+                        <input type="text" id="vertrek" name="vertrek" class="flatpickr-input" readonly>
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
 
-                <br>
-                <label for="aantal_personen">Aantal Personen:</label>
-                <select id="aantal_personen" name="aantal_personen" required>
-                    <?php for ($i = 1; $i <= $kamer['Capaciteit']; $i++): ?>
-                        <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                    <?php endfor; ?>
-                </select>
-                <br>
-                <button type="submit">Reserveren</button>
-            </form>
+                    <br>
+                    <label for="aantal_personen">Aantal Personen:</label>
+                    <select class="persoonaantalselector" id="aantal_personen" name="aantal_personen" required>
+                        <?php for ($i = 1; $i <= $kamer['Capaciteit']; $i++): ?>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                        <?php endfor; ?>
+                    </select>
+                    <br>
+                    <button type="submit">Reserveren</button>
+                </form>
+            </article>
+        </section>
+        <section class="extrafotos">
+            <h2>Foto's</h2>
+            <article>
+                <?php
+                // Haal de extra foto's van de kamer op (FotoSoort = 'extra') uit de database en toon deze
+                $sqlExtraFoto = "SELECT * FROM tblimg WHERE KamerFK = " . $kamer['PKKamer'] . " AND FotoSoort = 'extra'";
+                $resultExtraFoto = $conn->query($sqlExtraFoto);
+                if ($resultExtraFoto->num_rows > 0) {
+                    while ($rowExtraFoto = $resultExtraFoto->fetch_assoc()) {
+                        echo "<img src='img/uploads/" . $rowExtraFoto['FotoUrl'] . "' alt='Foto van " . $rowExtraFoto['FotoNaam'] . "'>";
+                    }
+                } else {
+                    echo "<p>Geen extra foto's beschikbaar.</p>";
+                }
+                ?>
+            </article>
         </section>
     </main>
     <?php include 'utility/footer.php'; ?>

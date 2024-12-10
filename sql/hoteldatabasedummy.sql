@@ -1,9 +1,11 @@
+-- Deze database bevat al een beetje dummy data om te testen
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 06 dec 2024 om 14:33
+-- Gegenereerd op: 10 dec 2024 om 12:39
 -- Serverversie: 10.4.32-MariaDB
 -- PHP-versie: 8.2.12
 
@@ -57,6 +59,13 @@ CREATE TABLE `tblblockdagen` (
   `Einddatum` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `tblblockdagen`
+--
+
+INSERT INTO `tblblockdagen` (`PKBlockdag`, `Startdatum`, `Einddatum`) VALUES
+(11, '2024-12-11', '2024-12-14');
+
 -- --------------------------------------------------------
 
 --
@@ -76,6 +85,15 @@ CREATE TABLE `tblboeking` (
   `SessionID` text NOT NULL,
   `Reservatie` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `tblboeking`
+--
+
+INSERT INTO `tblboeking` (`PKBoeking`, `PersoonFK`, `AantalPersonen`, `TotaalPrijs`, `KamerFK`, `Check_in`, `Check_out`, `Checked_in`, `betaald`, `SessionID`, `Reservatie`) VALUES
+(25, 11, 2, 97, 1, '2024-12-10 11:48:14', '2024-12-18 00:00:00', 1, 1, 'hf8pf40bb772onmkhpmh6hd2q9', '2024-12-10 11:43:28'),
+(27, 12, 4, 66.2, 3, '2024-12-17 00:00:00', '2024-12-18 00:00:00', 0, 1, 'hf8pf40bb772onmkhpmh6hd2q9', '2024-12-10 12:26:00'),
+(28, 12, 3, 97, 1, '2024-12-26 00:00:00', '2024-12-27 00:00:00', 0, 1, 'hf8pf40bb772onmkhpmh6hd2q9', '2024-12-10 12:33:47');
 
 -- --------------------------------------------------------
 
@@ -2870,6 +2888,20 @@ CREATE TABLE `tblimg` (
   `FotoSoort` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Gegevens worden geëxporteerd voor tabel `tblimg`
+--
+
+INSERT INTO `tblimg` (`PKIMG`, `FotoUrl`, `KamerFK`, `FotoNaam`, `FotoSoort`) VALUES
+(17, '870f15e2-4b3b-41f9-98c5-8ced031a2dc5.webp', 1, 'Overzicht Interieur Kamer Modeste', 'main'),
+(18, 'c2d620ff-022f-418d-8fc2-eda4e078787c.avif', 1, 'Zithoek Kamer Modeste', 'extra'),
+(19, 'buitenkant.webp', 1, 'Buitenkant Kamer Modeset', 'extra'),
+(20, 'jeune1.avif', 3, 'Overzicht Interieur Jeunesse', 'main'),
+(21, 'jeune3.avif', 3, 'Slaapkamer Jeunesse', 'extra'),
+(22, 'jeune2.avif', 3, 'Keuken Jeunesse', 'extra'),
+(23, 'jeune4.avif', 3, 'Badkamer Jeunesse', 'extra'),
+(24, 'jeune5.avif', 3, 'Buitenkant Jeunesse', 'extra');
+
 -- --------------------------------------------------------
 
 --
@@ -2891,7 +2923,9 @@ CREATE TABLE `tblkamer` (
 --
 
 INSERT INTO `tblkamer` (`PKKamer`, `KamerNaam`, `Capaciteit`, `Prijs`, `Wifi`, `Televisie`, `Airco`) VALUES
-(1, 'Modeste', 4, 94, 1, 1, 0);
+(1, 'Modeste', 3, 97, 1, 1, 1),
+(3, 'Jeunesse', 6, 66.2, 1, 0, 1),
+(4, 'Vacance', 3, 66.6, 0, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -2911,6 +2945,14 @@ CREATE TABLE `tblpersoon` (
   `Email` varchar(50) NOT NULL,
   `Telefoon` int(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `tblpersoon`
+--
+
+INSERT INTO `tblpersoon` (`PKPersoon`, `Voornaam`, `Naam`, `Geboortedatum`, `Straat`, `Huisnummer`, `Bus`, `GemeenteFK`, `Email`, `Telefoon`) VALUES
+(11, 'Achil', 'Janssens', '2006-09-03', 'Diestestraat', '1', '', 401, 'a.janssens@miniemen.school', 2147483647),
+(12, 'Jef', 'Van Mosselvelden', '2000-06-03', 'Mosselveldlaan', '99', '', 455, 'jef@edoinstallaties.be', 2147483647);
 
 -- --------------------------------------------------------
 
@@ -2998,13 +3040,13 @@ ALTER TABLE `tblbedrijf`
 -- AUTO_INCREMENT voor een tabel `tblblockdagen`
 --
 ALTER TABLE `tblblockdagen`
-  MODIFY `PKBlockdag` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `PKBlockdag` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblboeking`
 --
 ALTER TABLE `tblboeking`
-  MODIFY `PKBoeking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `PKBoeking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblgemeente`
@@ -3016,19 +3058,19 @@ ALTER TABLE `tblgemeente`
 -- AUTO_INCREMENT voor een tabel `tblimg`
 --
 ALTER TABLE `tblimg`
-  MODIFY `PKIMG` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `PKIMG` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblkamer`
 --
 ALTER TABLE `tblkamer`
-  MODIFY `PKKamer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `PKKamer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT voor een tabel `tblpersoon`
 --
 ALTER TABLE `tblpersoon`
-  MODIFY `PKPersoon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `PKPersoon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT voor een tabel `tbluser`
