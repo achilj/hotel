@@ -20,8 +20,8 @@ if(!isset($_SESSION["loggedin"])) {
     <section class="dashcontainer">
         <h1>Dashboard</h1>
         <a class="dashknop" href="overzicht.php">Boeking</a>
-        <a class="dashknop" href="kamer.php">Kamer</a>
-        <a class="dashknop" href="fotos.php">Fotos</a>
+        <a class="dashknop" href="kamer.php">Kamers</a>
+        <a class="dashknop" href="fotos.php">Mediabibliotheek</a>
         <a class="dashknop" href="block.php">Sluitingsdagen</a>
         <a class="dashknop" href="logout.php">Uitloggen</a>
     </section>

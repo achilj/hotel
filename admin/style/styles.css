@@ -49,6 +49,11 @@ h1 {
 }
 
 .foto {
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+    max-width: 1100px;
+    margin: 0 auto;
     border: 0.25rem solid #000;
     border-radius: 1rem;
     padding: 1rem;
