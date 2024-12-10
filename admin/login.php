@@ -11,9 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM tbluser WHERE Username = '$username' 
-            AND Wachtwoord = '$password'";
-    $result = $conn->query($sql);
+    // Check gebruikersnaam en wachtwoord in database en haal gebruiker op als deze bestaat, prepare statement
+    $stmt = $conn->prepare('SELECT * FROM tbluser WHERE username = ? AND Wachtwoord = ?');
+    $stmt->bind_param('ss', $username, $password);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     // Check of er een gebruiker is gevonden
     if ($result->num_rows > 0) {
