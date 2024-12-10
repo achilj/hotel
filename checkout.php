@@ -7,6 +7,7 @@ include 'utility/bedrijfsinfo.php';
 $sqlGemeente = "SELECT * FROM tblgemeente";
 $resultGemeente = mysqli_query($conn, $sqlGemeente);
 $GemeneeteRow = mysqli_fetch_assoc($resultGemeente);
+
 ?>
 
 <!DOCTYPE html>
