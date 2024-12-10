@@ -32,20 +32,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="style/styles.css">
 </head>
 <body>
-    <h2>Login</h2>
-    <?php if (isset($error)): ?>
-        <p style="color: red;"><?php echo $error; ?></p>
-    <?php endif; ?>
-    <form method="POST" action="">
-        <label for="username">Gebruikersnaam:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Wachtwoord:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Login</button>
-    </form>
+    <section class="loginform">
+        <h2>Login</h2>
+        <?php if (isset($error)): ?>
+            <p style="color: red;"><?php echo $error; ?></p>
+        <?php endif; ?>
+        <form method="POST" action="">
+            <label for="username">Gebruikersnaam:</label>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">Wachtwoord:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <button type="submit">Login</button>
+        </form>
+    </section>
 </body>
 </html>

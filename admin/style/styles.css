@@ -11,6 +11,16 @@ h1 {
     font-size: 2rem;
 }
 
+.loginform {
+    width: 35%;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 3rem;
+    border: #000 0.25rem solid;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
 .dashcontainer {
     display: flex;
     justify-content: center;
