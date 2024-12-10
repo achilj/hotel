@@ -158,7 +158,16 @@ nav ul li a:hover {
     margin-bottom: 1rem;
 }
 
-.kamerssec .kamer {
+.kamerlist {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 1rem;
+    margin-top: 1vh;
+}
+
+.kamerlist .kamer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -172,7 +181,7 @@ nav ul li a:hover {
     font-size: max(1.5rem, 1.25vw);
 }
 
-.kamerssec .kamer img {
+.kamerlist .kamer img {
     width: 700px;
     height: 500px;
     border-radius: 1rem;

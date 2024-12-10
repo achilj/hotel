@@ -1,7 +1,6 @@
 <?php
 include 'config/conn.php';
 include 'utility/bedrijfsinfo.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +19,7 @@ include 'utility/bedrijfsinfo.php';
         <section class="kamerssec">
             <h2>Boek hier onze gezellige kamers</h2>
             <p>Onze kamers zijn van alle gemakken voorzien en zijn geschikt voor zowel zakelijke als particuliere gasten.</p>
+            <article class="kamerlist">
             <?php
             $sql = "SELECT * FROM tblkamer";
             $result = $conn->query($sql);
@@ -57,6 +57,7 @@ include 'utility/bedrijfsinfo.php';
                 echo "Geen kamers gevonden";
             }
             ?>
+            </article>
         </section>
     </main>
 

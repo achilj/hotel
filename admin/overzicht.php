@@ -23,7 +23,7 @@ if(!isset($_SESSION["loggedin"])) {
         <h1>Boekingen</h1>
         <a class="terugknop" href="index.php">terug</a>
         <!-- Tabel met boekingen, boekingen waarvan de aankomstdatum niet in het verleden mag liggen deze worden binnengehaald via tblersoon voor het geval dat er een persoon is met meerdere boekingen !VOOR EXACT DEZELFDE DAGEN AANKOMST EN VERTREK) -->
-        <table>
+        <table class="boekingen">
             <tr>
                 <th>Boeking ID</th>
                 <th>Naam</th>
@@ -37,7 +37,8 @@ if(!isset($_SESSION["loggedin"])) {
             <?php
             $sql = "SELECT * 
                     FROM tblboeking 
-                    INNER JOIN tblpersoon ON tblboeking.PersoonFK = tblpersoon.PKPersoon 
+                    INNER JOIN tblpersoon ON tblboeking.PersoonFK = tblpersoon.PKPersoon
+                    INNER JOIN tblkamer ON tblboeking.KamerFK = tblkamer.PKKamer
                     WHERE tblboeking.Check_out >= CURDATE() AND Checked_in = '0'
                     ORDER BY tblboeking.Check_in ASC";
             $result = $conn->query($sql);
@@ -50,7 +51,7 @@ if(!isset($_SESSION["loggedin"])) {
                     echo "<td>" . $row['Telefoon'] . "</td>";
                     echo "<td>" . $row['Check_in'] . "</td>";
                     echo "<td>" . $row['Check_out'] . "</td>";
-                    echo "<td>" . $row['KamerFK'] . "</td>";
+                    echo "<td>" . $row['KamerNaam'] . "</td>";
                     echo "<td><a href='utility/boekingfuncties.php?checkin=" . $row['PKBoeking'] . "'>Inchecken</a></td>";
                     echo "<td><a href='utility/boekingfuncties.php?delete=" . $row['PKBoeking'] . "'>Verwijderen</a></td>";
                     echo "</tr>";
