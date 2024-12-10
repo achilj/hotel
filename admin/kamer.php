@@ -18,7 +18,7 @@ if(!isset($_SESSION["loggedin"])) {
 </head>
 <body>
     <section class="dashcontainer">
-        <h1>Kamers Aanpassen</h1>
+        <h1>Kamers Beheren</h1>
         <a class="terugknop" href="index.php">Terug</a>
         <!-- Formulier om nieuwe kamer toe te voegen -->
         <form action="utility/kamertoevoegen.php" method="post" class="kamertoevoegen">
