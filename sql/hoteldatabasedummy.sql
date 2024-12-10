@@ -2943,7 +2943,7 @@ CREATE TABLE `tblpersoon` (
   `Bus` varchar(5) DEFAULT NULL,
   `GemeenteFK` int(11) NOT NULL,
   `Email` varchar(50) NOT NULL,
-  `Telefoon` int(15) NOT NULL
+  `Telefoon` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
